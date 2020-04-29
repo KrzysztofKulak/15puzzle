@@ -23,13 +23,16 @@ class GameTestCase(unittest.TestCase):
     def test_win_check_for_default(self):
         game = Game()
         self.assertTrue(game)
+        self.assertTrue(game.is_won())
 
     def test_win_check_for_custom(self):
         initial_state = list(range(1, 15)) + [None, 15]
         game = Game(initial_state)
         self.assertFalse(game)
+        self.assertFalse(game.is_won())
         game.state[14], game.state[15] = game.state[15], game.state[14]
         self.assertTrue(game)
+        self.assertTrue(game.is_won())
 
     def test_legal_moves_corners(self):
         game = Game()
