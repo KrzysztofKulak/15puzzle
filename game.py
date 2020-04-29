@@ -1,10 +1,11 @@
 class Game:
-    def __init__(self, initial=None):
-        self.state = list()
-        if type(initial) is list and len(initial) == 16:
-            self.state = initial
-        else:
+    def __init__(self, initial_state=None):
+        if not initial_state:
             self.state = self.__get_default_state()
+        elif type(initial_state) is list and len(initial_state) == 16:
+            self.state = initial_state
+        else:
+            raise ValueError("Game state has to be a list with 16 values.")
         self.desired_state = self.__get_default_state()
 
     @staticmethod
@@ -24,7 +25,7 @@ class Game:
             f"{state_list[:4]}\n"
             f"{state_list[4:8]}\n"
             f"{state_list[8:12]}\n"
-            f"{state_list[12:]}\n"
+            f"{state_list[12:]}"
         )
 
     def __repr__(self):
@@ -35,4 +36,3 @@ class Game:
 
     def check_if_won(self):
         return bool(self)
-
