@@ -1,6 +1,6 @@
 import unittest
 
-from game import Game
+from game import Game, IllegalMoveError
 
 
 class GameTestCase(unittest.TestCase):
@@ -66,6 +66,20 @@ class GameTestCase(unittest.TestCase):
         game.move(9)
         self.assertEqual(None, game[9])
         self.assertEqual(9, game[5])
+
+    def test_illegal_moves(self):
+        default_state = list(range(1, 16)) + [None]
+        game = Game()
+        for i in list(range(1, 12)) + [13, 14]:
+            with self.assertRaises(IllegalMoveError):
+                game.move(i)
+            self.assertEqual(default_state, game.state)
+        state = list(range(1, 6)) + [None] + list(range(6, 16))
+        game = Game(state)
+        for i in [1, 3, 4, 7, 8, 10, 11]:
+            with self.assertRaises(IllegalMoveError):
+                game.move(i)
+            self.assertEqual(state, game.state)
 
 
 if __name__ == '__main__':
