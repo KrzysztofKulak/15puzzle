@@ -41,6 +41,9 @@ class Game:
     def __bool__(self):
         return self.state == self.desired_state
 
+    def __len__(self):
+        return len(self.state)
+
     def check_if_won(self):
         return bool(self)
 
