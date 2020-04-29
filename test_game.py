@@ -31,6 +31,12 @@ class GameTestCase(unittest.TestCase):
         game.state[14], game.state[15] = game.state[15], game.state[14]
         self.assertTrue(game)
 
+    def test_legal_move(self):
+        game = Game()
+        game.move(12)
+        self.assertEqual(None, game[11])
+        self.assertEqual(12, game[15])
+
 
 if __name__ == '__main__':
     unittest.main()
