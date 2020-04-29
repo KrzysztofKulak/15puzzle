@@ -46,16 +46,43 @@ class Game:
 
     def move(self, item):
         item_position = self.state.index(item)
-        if item_position % 4 == self.empty_field % 4 \
-                or (self.empty_field % 4 == 0 and item_position == self.empty_field + 1) \
-                or (self.empty_field % 4 == 3 and item_position == self.empty_field - 1):
+        if self.__is_legal_above_or_below(item_position) \
+                or self.__is_legal_edge(item_position) \
+                or self.__is_legal_middle(item_position):
             old_empty = self.empty_field
             self[item_position] = None
             self[old_empty] = item
         else:
             raise IllegalMoveError
 
+    def __is_legal_above_or_below(self, item_position):
+        return item_position % 4 == self.empty_field % 4 \
+               and abs(item_position - self.empty_field) == 4
+
+    def __is_legal_edge(self, item_position):
+        return (
+                (
+                        self.empty_field % 4 == 0 and
+                        item_position == self.empty_field + 1
+                ) or
+                (
+                        self.empty_field % 4 == 3 and
+                        item_position == self.empty_field - 1
+                )
+        )
+
+    def __is_legal_middle(self, item_position):
+        return (
+                (
+                        self.empty_field % 4 == 1 or
+                        self.empty_field % 4 == 2
+                ) and
+                (
+                        item_position == self.empty_field - 1 or
+                        item_position == self.empty_field + 1
+                )
+        )
+
 
 class IllegalMoveError(Exception):
-    def __init__(self):
-        super(Exception, "Selected field's not adjacent to the empty field.")
+    pass
